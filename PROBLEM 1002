@@ -1,0 +1,36 @@
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+char** commonChars(char** words, int wordsSize, int* returnSize) {
+    int globalFreq[26];
+    for(int i =0; i<26; i++){
+        globalFreq[i] = INT_MAX;
+    }
+    for(int i =0; i<wordsSize; i++){
+        int localFreq[26] = {0};
+
+        for(int j = 0 ; words[i][j] != '\0'; j++){
+            localFreq[words[i][j] - 'a']++;
+        }
+        for(int k =0; k<26;k++){
+            if(localFreq[k] < globalFreq[k]){
+                globalFreq[k] = localFreq[k];
+            }
+        }
+    }
+
+    char** result = (char**)malloc(100 * sizeof(char*));
+    *returnSize = 0;
+    
+    for(int i = 0 ; i<26 ; i++){
+        while(globalFreq[i] > 0){
+            result[*returnSize]= (char*)malloc(2*sizeof(char));
+            result[*returnSize][0] = 'a'+i;
+            result[*returnSize][1] = '\0';
+            (*returnSize)++;
+            globalFreq[i]--;
+        }
+    }
+
+    return result;
+}
