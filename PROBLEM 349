@@ -1,0 +1,27 @@
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+ #include<stdio.h>
+ #define OFFSET 1000
+ #define SIZE 2001
+int* intersection(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize) {
+    int *hash = (int*)calloc(SIZE, sizeof(int));
+    int *result = (int*)malloc(sizeof(int) * (nums1Size < nums2Size ? nums1Size : nums2Size));
+    *returnSize = 0;
+
+    for(int i = 0; i<nums1Size ; i++){
+        hash[nums1[i] + OFFSET] = 1;
+    }
+
+    for(int i = 0; i< nums2Size ; i++){
+        if(hash[nums2[i] + OFFSET] == 1){
+            result[*returnSize] = nums2[i];
+            (*returnSize)++;
+            hash[nums2[i]+ OFFSET] = -1;
+        }
+    }
+
+    free(hash);
+    return result;
+    
+}
