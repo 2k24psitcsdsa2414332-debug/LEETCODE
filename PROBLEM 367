@@ -1,0 +1,15 @@
+class Solution {
+public:
+    bool isPerfectSquare(int num) {
+        if (num < 2) return true;      
+        long long l = 2, r = num / 2;  
+        while (l <= r) {
+            long long m = l + (r - l) / 2;
+            long long q = num / m;    
+            if (m == q) return (m * m == num); 
+            if (m < q) l = m + 1;
+            else r = m - 1;
+        }
+        return false;
+    }
+};
