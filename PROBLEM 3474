@@ -1,0 +1,42 @@
+class Solution:
+    def generateString(self, str1: str, str2: str) -> str:
+        n, m = len(str1), len(str2)
+        size = n + m - 1
+        
+        ans = [None] * size
+        modifiable = [True] * size
+        
+        # Step 1: Handle 'T'
+        for i in range(n):
+            if str1[i] == 'T':
+                for j in range(m):
+                    pos = i + j
+                    if ans[pos] is not None and ans[pos] != str2[j]:
+                        return ""
+                    ans[pos] = str2[j]
+                    modifiable[pos] = False
+        
+        # Step 2: Fill remaining with 'a'
+        for i in range(size):
+            if ans[i] is None:
+                ans[i] = 'a'
+        
+        # Step 3: Handle 'F'
+        def match(i):
+            for j in range(m):
+                if ans[i + j] != str2[j]:
+                    return False
+            return True
+        
+        for i in range(n):
+            if str1[i] == 'F' and match(i):
+                pos = -1
+                for j in range(m):
+                    if modifiable[i + j]:
+                        pos = i + j
+                if pos == -1:
+                    return ""
+                ans[pos] = 'b'
+                modifiable[pos] = False
+        
+        return ''.join(ans)
