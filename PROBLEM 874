@@ -1,0 +1,26 @@
+class Solution:
+    def robotSim(self, commands, obstacles):
+        obstacle_set = set(map(tuple, obstacles))
+        
+        dirs = [0, 1, 0, -1, 0]
+        x = y = 0
+        d = 0  # 0=N,1=E,2=S,3=W
+        maxDist = 0
+        
+        for cmd in commands:
+            if cmd == -2:
+                d = (d + 3) % 4
+            elif cmd == -1:
+                d = (d + 1) % 4
+            else:
+                for _ in range(cmd):
+                    nx = x + dirs[d]
+                    ny = y + dirs[d+1]
+                    
+                    if (nx, ny) in obstacle_set:
+                        break
+                    
+                    x, y = nx, ny
+                    maxDist = max(maxDist, x*x + y*y)
+        
+        return maxDist
