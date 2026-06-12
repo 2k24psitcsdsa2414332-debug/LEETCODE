@@ -1,0 +1,16 @@
+class Solution:
+    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+        m_idx = m - 1
+        n_idx = n - 1
+        curr_idx = m + n - 1
+
+        while n_idx >= 0:
+            if m_idx >= 0 and nums1[m_idx] > nums2[n_idx]:
+                nums1[curr_idx] = nums1[m_idx]
+                m_idx -= 1
+            else:
+                nums1[curr_idx] = nums2[n_idx]
+                n_idx -= 1
+
+            curr_idx -= 1
+            
